@@ -1,0 +1,4 @@
+account_number,minutes_international,number_international,minutes_domestic,number_domestic,minutes_local,number_local,charge
+123,2,1,12,2,0,0,2.60
+456,2,1,0,0,0,0,1.40
+789,0,0,0,0,2,1,0.04

@@ -64,15 +64,15 @@ def test_get_call_type_local(local_call_info):
 
 
 def test_calculate_international_charge(international_call_info):
-    assert international_call_info.calculate_charge_for_call() == Decimal(1.4)
+    assert international_call_info.calculate_charge_for_call() == Decimal(1.4).quantize(Decimal('1.00'))
 
 
 def test_calculate_domestic_charge(domestic_call_info):
-    assert domestic_call_info.calculate_charge_for_call() == Decimal(.2)
+    assert domestic_call_info.calculate_charge_for_call() == Decimal(.2).quantize(Decimal('1.00'))
 
 
 def test_calculate_local_charge(local_call_info):
-    assert local_call_info.calculate_charge_for_call() == Decimal(.04)
+    assert local_call_info.calculate_charge_for_call() == Decimal(.04).quantize(Decimal('1.00'))
 
 
 def test_phone_number(local_call_info):
@@ -90,7 +90,7 @@ def test_international_customer_bill(international_call_info):
     assert bill.num_domestic == 0
     assert bill.minutes_local == 0
     assert bill.num_local == 0
-    assert bill.charge == Decimal(1.4)
+    assert bill.charge == Decimal(1.4).quantize(Decimal('1.00'))
 
 
 def test_domestic_customer_bill(domestic_call_info):
@@ -101,7 +101,7 @@ def test_domestic_customer_bill(domestic_call_info):
     assert bill.num_domestic == 1
     assert bill.minutes_local == 0
     assert bill.num_local == 0
-    assert bill.charge == Decimal(.2)
+    assert bill.charge == Decimal(.2).quantize(Decimal('1.00'))
 
 
 def test_local_customer_bill(local_call_info):
@@ -112,7 +112,7 @@ def test_local_customer_bill(local_call_info):
     assert bill.num_domestic == 0
     assert bill.minutes_local == 2
     assert bill.num_local == 1
-    assert bill.charge == Decimal(.04)
+    assert bill.charge == Decimal(.04).quantize(Decimal('1.00'))
 
 
 def test_update_customer_bill(international_call_info, domestic_call_info):
@@ -155,7 +155,7 @@ def test_calculate_single_bill(international_call_info):
     assert bill.num_domestic == 0
     assert bill.minutes_local == 0
     assert bill.num_local == 0
-    assert bill.charge == Decimal(1.4)
+    assert bill.charge == Decimal(1.4).quantize(Decimal('1.00'))
 
 
 def test_calculate_multiple_bills_for_one_account(international_call_info, domestic_call_info):
@@ -169,7 +169,7 @@ def test_calculate_multiple_bills_for_one_account(international_call_info, domes
     assert bill.num_domestic == 1
     assert bill.minutes_local == 0
     assert bill.num_local == 0
-    assert bill.charge.quantize(Decimal('1.00')) == Decimal(1.6).quantize(Decimal('1.00'))
+    assert bill.charge == Decimal(1.6).quantize(Decimal('1.00'))
 
 
 def test_calculate_multiple_bills_for_multiple_accounts(international_call_info, domestic_call_info):
@@ -190,7 +190,7 @@ def test_calculate_multiple_bills_for_multiple_accounts(international_call_info,
     assert account_1_bill.num_domestic == 1
     assert account_1_bill.minutes_local == 0
     assert account_1_bill.num_local == 0
-    assert account_1_bill.charge.quantize(Decimal('1.00')) == Decimal(1.6).quantize(Decimal('1.00'))
+    assert account_1_bill.charge == Decimal(1.6).quantize(Decimal('1.00'))
 
     account_2_bill = bills[1]
     assert account_2_bill.minutes_international == 0
@@ -199,4 +199,4 @@ def test_calculate_multiple_bills_for_multiple_accounts(international_call_info,
     assert account_2_bill.num_domestic == 1
     assert account_2_bill.minutes_local == 0
     assert account_2_bill.num_local == 0
-    assert account_2_bill.charge.quantize(Decimal('1.00')) == Decimal(.2).quantize(Decimal('1.00'))
+    assert account_2_bill.charge == Decimal(.2).quantize(Decimal('1.00'))

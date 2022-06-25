@@ -21,7 +21,7 @@ def run_billing(file):
 
     bills = calculate_bills(call_infos)
 
-    with open ("sample_output.csv", "w") as f:
+    with open("output.csv", "w") as f:
         headers = "account_number,minutes_international,number_international,minutes_domestic,number_domestic,minutes_local,number_local,charge\n"
         f.write(headers)
         for bill in bills:
@@ -90,7 +90,7 @@ class CustomerBill:
         self.num_international += new_call_info.num_international
         self.num_domestic += new_call_info.num_domestic
         self.num_local += new_call_info.num_local
-        self.charge += new_call_info.charge
+        self.charge += new_call_info.charge.quantize(Decimal('1.00'))
 
     def __repr__(self):
         return f"{self.account_number},{self.minutes_international},{self.num_international},{self.minutes_domestic}," \
@@ -136,7 +136,7 @@ class CallInfo:
             rate = .02
         else:
             raise NotImplementedError(f"Unhandled call_type encountered: {call_type}")
-        return Decimal(base + rate * duration)
+        return Decimal(base + rate * duration).quantize(Decimal('1.00'))
 
 
 if __name__ == "__main__":
